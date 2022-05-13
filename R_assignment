@@ -1,0 +1,28 @@
+#There is a function makeCacheMatrix
+# makeCacheMatrix consist of set,get,setinv,getinv
+## makeCacheMatrix <- function(x = matrix(sample(1:100,9),3,3)) {
+  s <- NULL                                         #Initializing inverse as null
+  set <- function(y) {
+    x <<- y
+    s <<- NULL
+  }
+  get <- function() x
+  setsolve <- function(solve) s <<- solve
+  getsolve <- function() s
+  list(set = set, get = get,
+       setsolve = setsolve,
+       getsolve = getsolve)
+}
+##
+## This is used to get A Chache data
+cacheSolve <- function(x, ...) {
+  s <- x$getsolve()
+  if(!is.null(s)) {                             ## Checking whethere inverse is null
+    message("getting inversed matrix")       
+    return(s)                                   ## Return inverse value
+  }
+  data <- x$get()                               # Calculate inverse value
+  s <- solve(data, ...)                         # Matrix gets returned that is inverse of x
+  x$setsolve(s)
+  s
+}
